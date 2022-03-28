@@ -33,6 +33,10 @@ def add_todo():
     args:
         request: the request object
     """
+    todo_description = request.form.get("todo_description")
+    if not todo_description:
+        flash("Please enter a todo description")
+        return redirect(url_for("main.todos"))
     todo = Todo(
         description=request.form.get("todo_description"), user_id=current_user.id
     )
@@ -41,7 +45,7 @@ def add_todo():
     return redirect(url_for("main.todos"))
 
 
-@main.route("/todos/<int:todo_id>/delete", methods=["POST"])
+@main.route("/todos/<int:todo_id>/delete", methods=["DELETE"])
 @login_required
 def delete_todo(todo_id: int):
     """
@@ -57,7 +61,7 @@ def delete_todo(todo_id: int):
     return redirect(url_for("main.todos"))
 
 
-@main.route("/todos/<int:todo_id>/set-completed", methods=["POST"])
+@main.route("/todos/<int:todo_id>/set-completed", methods=["PUT"])
 @login_required
 def set_completed_todo(todo_id: int):
     """

@@ -3,6 +3,13 @@
 {% block content %}
 <h2 class="subtitle">
   Here are your todos:
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="notification is-danger">
+      {{ messages[0] }}
+  </div>
+  {% endif %}
+{% endwith %}
 <form method="POST" action="/todos">
   <div class="field">
       <div class="control">
