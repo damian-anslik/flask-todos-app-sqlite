@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="subtitle">
+  Here are your todos:
+<form method="POST" action="/todos">
+  <div class="field">
+      <div class="control">
+          <input class="input" type="text" name="todo_description" placeholder="description" autofocus="">
+      </div>
+  </div>
+
+  <button class="button is-block is-info is-large">Add New Todo</button>
+</form>
+{% for todo in todos %}
+  <div>
+    {{ todo.title }}
+    {{ todo.description }}
+    {% if todo.done %}
+      <span class="tag is-success">Done</span>
+    {% else %}
+      <span class="tag is-danger">Not Done</span>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

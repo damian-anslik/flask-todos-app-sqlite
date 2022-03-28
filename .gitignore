@@ -1,0 +1,6 @@
+.vscode/
+config.py
+*.sqlite
+venv/
+*.pyc
+__pycache__/
