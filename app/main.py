@@ -37,9 +37,7 @@ def add_todo():
     if not todo_description:
         flash("Please enter a todo description")
         return redirect(url_for("main.todos"))
-    todo = Todo(
-        description=request.form.get("todo_description"), user_id=current_user.id
-    )
+    todo = Todo(description=todo_description, user_id=current_user.id)
     db.session.add(todo)
     db.session.commit()
     return redirect(url_for("main.todos"))
