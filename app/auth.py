@@ -10,7 +10,7 @@ auth = Blueprint("auth", __name__)
 @auth.route("/login")
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("main.home"))
     return render_template("login.html")
 
 
@@ -24,13 +24,13 @@ def login_post():
         flash("Please check your login details and try again.")
         return redirect(url_for("auth.login"))
     login_user(user, remember=remember)
-    return redirect(url_for("main.todos"))
+    return redirect(url_for("main.home"))
 
 
 @auth.route("/signup")
 def signup():
     if current_user.is_authenticated:
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("main.home"))
     return render_template("signup.html")
 
 
