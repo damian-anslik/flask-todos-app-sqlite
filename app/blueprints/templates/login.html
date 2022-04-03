@@ -4,18 +4,11 @@
 <div class="column is-4 is-offset-4">
     <h3 class="title">Login</h3>
     <div class="box">
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                <!-- TODO The success message does not show up in green -->
-                {% if messages[0].category=="success" %}
-                <div class="notification is-success">
-                    {{ messages[0] }}
-                </div>
-                {% else %}
-                <div class="notification is-danger">
-                    {{ messages[0] }}
-                </div>
-                {% endif %}
+                {% for category, msg in messages %}
+                    <div class="notification is-{{ category }}">{{ msg }}</div>
+                {% endfor %}
             {% endif %}
         {% endwith %}
         <form method="POST" action="/login">

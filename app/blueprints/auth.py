@@ -23,7 +23,7 @@ def login_post():
     remember = True if request.form.get("remember") else False
     user = User.query.filter_by(email=email).first()
     if not user or not check_password_hash(user.password_hash, password):
-        flash("Please check your login details and try again.")
+        flash("Please check your login details and try again.", "danger")
         return redirect(url_for("auth.login"))
     login_user(user, remember=remember)
     return redirect(url_for("main.home"))
@@ -43,7 +43,7 @@ def signup_post():
     password = request.form.get("password")
     user = User.query.filter((User.name == name) | (User.email == email)).first()
     if user:
-        flash("User already exists")
+        flash("User already exists", "danger")
         return redirect(url_for("auth.signup"))
     new_user = User(
         email=email,
@@ -55,7 +55,7 @@ def signup_post():
     send_confirmation_email(email=email)
     flash(
         "You have successfully registered. Please check your email to confirm your account.",
-        "info",
+        "info"
     )
     return redirect(url_for("auth.login"))
 
@@ -71,16 +71,16 @@ def logout():
 def confirm_email(token: str):
     confirmation_email = ConfirmationEmail.query.filter_by(token=token).first()
     if not confirmation_email:
-        flash("Invalid confirmation token", "error")
+        flash("Invalid confirmation token", "danger")
         return redirect(url_for("main.home"))
     if confirmation_email.expiry_date < datetime.now():
-        flash("Confirmation token expired", "error")
+        flash("Confirmation token expired", "danger")
         return redirect(url_for("main.home"))
     user = User.query.filter_by(email=confirmation_email.email).first()
     user.is_confirmed = True
     db.session.delete(confirmation_email)
     db.session.commit()
-    flash("Email confirmed. Please login.", category="success")
+    flash("Email confirmed. Please login.", "success")
     return redirect(url_for("auth.login"))
 
 
