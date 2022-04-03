@@ -16,15 +16,12 @@
         <div class="hero-head">
             <nav class="navbar" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
-                    {% if current_user.is_authenticated %}
-                        <a class="navbar-item" href="{{ url_for('main.home') }}">
-                            My Awesome Flask App
-                        </a>
-                    {% else %}
-                        <a class="navbar-item" href="{{ url_for('main.index') }}">
-                            My Awesome Flask App
-                        </a>
-                    {% endif %}
+                    <a class="navbar-item" href="{{ url_for('main.index') }}">
+                        <span class="icon is-large is-left">
+                            <i class="fas fa-code"></i>
+                        </span> 
+                        My Awesome Flask App
+                    </a>
                 </div>
               
                 <div id="navbarBasicExample" class="navbar-menu">
