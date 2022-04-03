@@ -6,10 +6,11 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, msg in messages %}
-                <div class="notification is-{{ category }}">{{ msg }}</div>
+                <div class="notification is-{{ category }} has-text-centered">{{ msg }}</div>
             {% endfor %}
         {% endif %}
     {% endwith %}
+    <h1 class="title has-text-black">Update your profile details</h1>
     <form action="{{ url_for('auth.update') }}" method="post">
         <div class="field">
             <label class="label">Name</label>
