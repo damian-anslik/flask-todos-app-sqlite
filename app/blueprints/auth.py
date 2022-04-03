@@ -20,10 +20,10 @@ def login():
 @auth.route("/login", methods=["POST"])
 def login_post():
     email = request.form.get("email")
-    pasword = request.form.get("password")
+    password = request.form.get("password")
     remember = True if request.form.get("remember") else False
     user = User.query.filter_by(email=email).first()
-    if not user or not check_password_hash(user.password_hash, pasword):
+    if not user or not check_password_hash(user.password_hash, password):
         flash("Please check your login details and try again.")
         return redirect(url_for("auth.login"))
     login_user(user, remember=remember)
@@ -64,7 +64,6 @@ def signup_post():
 @auth.route("/logout")
 @login_required
 def logout():
-    # Logour the user out, then redirect to the index page
     logout_user()
     return redirect(url_for("main.index"))
 
