@@ -110,16 +110,16 @@ def update():
             flash("Password updated", "success")
         else:
             flash("New passwords do not match", "danger")
-    else:
-        # Check if a user or email is already taken
-        user = User.query.filter((User.name == name) | (User.email == email)).first()
-        if user != current_user:
-            flash("User already exists", "danger")
-            return redirect(url_for("main.settings"))
-        current_user.name = name
-        current_user.email = email
-        db.session.commit()
-        flash("Profile updated", "success")
+
+    # Check if a user or email is already taken
+    user = User.query.filter((User.name == name) | (User.email == email)).first()
+    if user != current_user:
+        flash("User already exists", "danger")
+        return redirect(url_for("main.settings"))
+    current_user.name = name
+    current_user.email = email
+    db.session.commit()
+    flash("Profile updated", "success")
     return redirect(url_for("main.settings"))
 
     
