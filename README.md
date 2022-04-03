@@ -23,3 +23,11 @@
     ```
 
     The MAIL_PASSWORD for the mail client can be retrieved from Gmail by following [this article](https://support.google.com/accounts/answer/185833?hl=en).
+
+## 💃 About Styling
+
+This project uses the open-source CSS framework Bulma. For documentation see [here](https://bulma.io/documentation/columns/sizes/).
+
+## 💫 Icons
+
+This project uses free FontAwesome icons. For a list of icons see [here](https://fontawesome.com/icons).
