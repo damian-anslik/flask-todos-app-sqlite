@@ -4,6 +4,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Config:
+    LOG_FILE = "app.log"
+    LOG_FORMAT = "%(asctime)s %(levelname)s: %(message)s"
+    
+    ENV = os.getenv("FLASK_ENV")
     SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI') or 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
