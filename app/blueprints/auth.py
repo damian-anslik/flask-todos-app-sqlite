@@ -45,7 +45,7 @@ def signup_post():
     password = request.form.get("password")
     user = User.query.filter((User.name == name) | (User.email == email)).first()
     if user:
-        flash("User already exists", "danger")
+        flash("User already exists")
         return redirect(url_for("auth.signup"))
     new_user = User(
         email=email,
