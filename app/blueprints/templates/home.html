@@ -2,14 +2,28 @@
 
 {% block content %}
 
-<div class="column is-4 is-offset-4">
-    {% if current_user.is_confirmed %}
-        <p>Your account is confirmed.</p>
+{% if not current_user.is_confirmed %}
+    <div class="column is-4 is-offset-4">
+        <div class="box">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, msg in messages %}
+                        <div class="notification is-{{ category }}">{{ msg }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="block">
+                <p>
+                    You need to confirm your email address before you can log in.
+                    Please check your email and click on the confirmation link.
+                </p>
+            </div>
+            <form action="{{ url_for('auth.resend_confirmation') }}" method="post">
+                <button class="button is-block is-info is-large is-fullwidth">Resend Email</button>
+            </form>
+        </div>
     {% else %}
-        <div class="notification is-info">
-            Verify your account
-        </div>    
+        <h1 class="title">You are already confirmed!</h1>
+    </div>
     {% endif %}
-</div>
-
 {% endblock %}

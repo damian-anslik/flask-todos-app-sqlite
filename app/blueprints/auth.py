@@ -9,6 +9,7 @@ from .. import db, mail, sender
 
 auth = Blueprint("auth", __name__, template_folder="templates")
 
+
 @auth.route("/login")
 def login():
     if current_user.is_authenticated:
@@ -53,11 +54,12 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
     send_confirmation_email(email=email)
+    login_user(user)
     flash(
         "You have successfully registered. Please check your email to confirm your account.",
-        "info"
+        "success"
     )
-    return redirect(url_for("auth.login"))
+    return redirect(url_for("main.home"))
 
 
 @auth.route("/logout")
@@ -80,8 +82,17 @@ def confirm_email(token: str):
     user.is_confirmed = True
     db.session.delete(confirmation_email)
     db.session.commit()
-    flash("Email confirmed. Please login.", "success")
-    return redirect(url_for("auth.login"))
+    login_user(user)
+    return redirect(url_for("main.home"))
+
+@auth.route("/resend_confirmation", methods=["POST"])
+@login_required
+def resend_confirmation():
+    if current_user.is_confirmed:
+        return redirect(url_for("main.home"))
+    send_confirmation_email(email=current_user.email)
+    flash("Confirmation email sent", "success")
+    return redirect(url_for("main.home"))
 
 
 def send_confirmation_email(email: str):
