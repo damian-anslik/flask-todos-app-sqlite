@@ -3,12 +3,13 @@ from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import logging 
 
 from ..models import User, ConfirmationEmail
 from .. import db, mail, sender
 
 auth = Blueprint("auth", __name__, template_folder="templates")
-
+logger = logging.getLogger(__name__)
 
 @auth.route("/login")
 def login():
@@ -24,7 +25,7 @@ def login_post():
     remember = True if request.form.get("remember") else False
     user = User.query.filter_by(email=email).first()
     if not user or not check_password_hash(user.password_hash, password):
-        flash("Please check your login details and try again.", "danger")
+        flash("Please check your login details and try again.")
         return redirect(url_for("auth.login"))
     login_user(user, remember=remember)
     return redirect(url_for("main.home"))
@@ -112,9 +113,15 @@ def update():
             flash("New passwords do not match", "danger")
 
     # Check if a user or email is already taken
-    user = User.query.filter((User.name == name) | (User.email == email)).first()
-    if user != current_user:
-        flash("User already exists", "danger")
+    # Check if user name exists
+    user = User.query.filter_by(name=name).first()
+    if user and user.id != current_user.id:
+        flash("User name already taken", "danger")
+        return redirect(url_for("main.settings"))
+    # Check if email exists
+    user = User.query.filter_by(email=email).first()
+    if user and user.id != current_user.id:
+        flash("Email already taken", "danger")
         return redirect(url_for("main.settings"))
     current_user.name = name
     current_user.email = email
