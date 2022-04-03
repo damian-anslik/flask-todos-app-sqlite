@@ -54,7 +54,7 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
     send_confirmation_email(email=email)
-    login_user(user)
+    login_user(user=new_user)
     flash(
         "You have successfully registered. Please check your email to confirm your account.",
         "success"
@@ -85,6 +85,44 @@ def confirm_email(token: str):
     login_user(user)
     return redirect(url_for("main.home"))
 
+
+@auth.route("/update", methods=["POST"])
+@login_required
+def update():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    new_password = request.form.get("new_password")
+    confirm_new_password = request.form.get("confirm_new_password")
+
+    if not name or not email or not password:
+        flash("Please fill out all fields", "danger")
+        return redirect(url_for("main.settings"))
+    if check_password_hash(current_user.password_hash, password) is False:
+        flash("Incorrect password", "danger")
+        return redirect(url_for("main.settings"))
+    if new_password and confirm_new_password:
+        if new_password == confirm_new_password:
+            current_user.password_hash = generate_password_hash(
+                new_password, method="sha256"
+            )
+            db.session.commit()
+            flash("Password updated", "success")
+        else:
+            flash("New passwords do not match", "danger")
+    else:
+        # Check if a user or email is already taken
+        user = User.query.filter((User.name == name) | (User.email == email)).first()
+        if user != current_user:
+            flash("User already exists", "danger")
+            return redirect(url_for("main.settings"))
+        current_user.name = name
+        current_user.email = email
+        db.session.commit()
+        flash("Profile updated", "success")
+    return redirect(url_for("main.settings"))
+
+    
 @auth.route("/resend_confirmation", methods=["POST"])
 @login_required
 def resend_confirmation():

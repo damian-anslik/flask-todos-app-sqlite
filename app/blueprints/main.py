@@ -14,3 +14,8 @@ def index():
 @login_required
 def home():
     return render_template("home.html")
+
+@main.route("/settings")
+@login_required
+def settings():
+    return render_template("settings.html")
