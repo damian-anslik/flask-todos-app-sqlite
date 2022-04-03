@@ -10,5 +10,14 @@ def init_db():
         db.create_all()
         db.session.commit()
 
+def migrate_db_tables():
+    """
+    Migrate the database to the latest version.
+    """
+    app = create_app()
+    with app.app_context():
+        db.create_all()
+        db.session.commit()
+
 if __name__ == '__main__':
-    init_db()
+    migrate_db_tables()

@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hello, {{ current_user.name }}</h1>
 
+<div>
     {% if current_user.is_confirmed %}
         <p>Your account is confirmed.</p>
     {% else %}
-        <p>Your account is not confirmed yet.</p>
+        <div class="notification is-danger">
+            <span>Your account is not confirmed yet!</span>
+        </div>    
     {% endif %}
+</div>
 
 {% endblock %}
