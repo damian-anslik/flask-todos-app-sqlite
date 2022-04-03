@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container has-text-centered">
+<div class="container">
     {% if not current_user.is_confirmed %}
     <div class="column is-4 is-offset-4">
-        <div class="box">
+        <div class="box has-text-centered">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, msg in messages %}
