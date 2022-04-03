@@ -6,6 +6,7 @@
     <div class="box">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
+                <!-- TODO The success message does not show up in green -->
                 {% if messages[0].category=="success" %}
                 <div class="notification is-success">
                     {{ messages[0] }}

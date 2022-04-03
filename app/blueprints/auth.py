@@ -5,11 +5,10 @@ from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
-from .models import User, ConfirmationEmail
-from . import db, mail, sender
+from ..models import User, ConfirmationEmail
+from .. import db, mail, sender
 
-auth = Blueprint("auth", __name__)
-
+auth = Blueprint("auth", __name__, template_folder="templates")
 
 @auth.route("/login")
 def login():
