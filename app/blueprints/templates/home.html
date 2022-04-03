@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<div>
+<div class="column is-4 is-offset-4">
     {% if current_user.is_confirmed %}
         <p>Your account is confirmed.</p>
     {% else %}
-        <div class="notification is-danger">
-            <span>Your account is not confirmed yet!</span>
+        <div class="notification is-info">
+            Verify your account
         </div>    
     {% endif %}
 </div>
